@@ -4,22 +4,11 @@
 
 package frc.robot;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.Autos;
-import frc.robot.commands.ExampleCommand;
-import frc.robot.commands.MoveShooterUp;
-import frc.robot.commands.MoveShooterDown;
-import frc.robot.commands.ShooterMagToggle;
-import frc.robot.commands.ShooterSolenoidToggle;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Shooter;
-import edu.wpi.first.wpilibj.PS4Controller;
-import edu.wpi.first.wpilibj.RobotState;
-import edu.wpi.first.wpilibj.PS4Controller.Button;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
-import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
