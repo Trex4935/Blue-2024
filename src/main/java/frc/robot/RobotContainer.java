@@ -70,15 +70,6 @@ public class RobotContainer {
    */
   private void configureBindings() {
 
-    boolean x = m_driverController.x().getAsBoolean();
-
-    while (x == true) {
-      
-    }
-
-    while (x == false) {
-      
-    }
     
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is
     // pressed,
