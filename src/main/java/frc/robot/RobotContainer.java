@@ -40,6 +40,11 @@ public class RobotContainer {
    */
   public RobotContainer() {
     // Configure the trigger bindings
+    // backup controller controls in case dancepad breaks
+    m_Drivetrain.setDefaultCommand(Commands.run(
+        // Executes Tank Drive using drivetrainController
+        () -> m_Drivetrain.diffDrive.tankDrive(m_driverController.getLeftY(), m_driverController.getRightY()),
+        m_Drivetrain));
     
     configureBindings();
   
@@ -80,8 +85,9 @@ public class RobotContainer {
   
     m_driverController.y().whileTrue(m_Shooter.Run_Cannon_Motor_up());
     m_driverController.a().whileTrue(m_Shooter.Run_Cannon_Motor_down());
+    //m_driverController.b().whileTrue(m_Shooter.shooterEnable());
     // m_driverController.rightBumper().onTrue(m_Shooter.shoot_ball());
-    m_driverController.rightBumper().and(m_dancePad.button(7)).whileTrue(m_Shooter.shoot_ball());
+    // frm_driverController.rightBumper().and(m_dancePad.button(7)).whileTrue(m_Shooter.shoot_ball());
    // m_driverController.x().onTrue();
    //  m_driverController.x().OnFalse(CommandScheduler.getInstance().enable());
     
@@ -92,8 +98,8 @@ public class RobotContainer {
     m_dancePad.button(8).whileTrue(m_Shooter.Run_Cannon_Motor_down());
 
     // Moves robot forawrd and backwards with the up and down key repsectfully 
-    m_dancePad.button(3).whileTrue(m_Drivetrain.moveMotorsForward());
-    m_dancePad.button(2).whileTrue(m_Drivetrain.moveMotorsBackward());
+    m_dancePad.button(4).whileTrue(m_Drivetrain.moveMotorsForward()); 
+    m_dancePad.button(1).whileTrue(m_Drivetrain.moveMotorsBackward());
     
     // Emergency Stop shenanigans
     m_dancePad.button(5).onTrue(m_Drivetrain.DisableRobot());
@@ -102,9 +108,9 @@ public class RobotContainer {
     // Shoots ball using triangle
     m_dancePad.button(6).onTrue(m_Shooter.shoot_ball());
 
-    // Turns the robot left or roght based on the left or right buttons
-    m_dancePad.button(1).whileTrue(m_Drivetrain.rotateMotorsLeft());
-    m_dancePad.button(4).whileTrue(m_Drivetrain.rotateMotorsRight());
+    // Turns the robot left or right based on the left or right buttons
+    m_dancePad.button(3).whileTrue(m_Drivetrain.rotateMotorsLeft()); 
+    m_dancePad.button(2).whileTrue(m_Drivetrain.rotateMotorsRight()); 
 
  //   m_dancePad.button(4).whileFalse(m_Drivetrain.rotateMotorsRight());
       }

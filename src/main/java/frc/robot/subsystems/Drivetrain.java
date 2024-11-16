@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.math.proto.System;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -59,21 +60,20 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public void motorBackward(){
-    diffDrive.tankDrive(-0.4, -0.4);
+    diffDrive.tankDrive(-0.8, -0.8);
   }
 
   public void motorForward(){
-    diffDrive.tankDrive(0.4, 0.4);
+    diffDrive.tankDrive(0.8, 0.8);
   }
 
   public void rotateLeft(){
-    leftMotorOne.set(-0.4);
-    rightMotorOne.set(0.4);
+    diffDrive.tankDrive(-0.9, 0.9);
   }
 
   public void rotateRight(){
-    leftMotorOne.set(0.4);
-    rightMotorOne.set(-0.4);
+    diffDrive.tankDrive(0.9, -0.9);
+   
   }
   public void disableRobot(){
     CommandScheduler.getInstance().disable();
@@ -93,7 +93,6 @@ public class Drivetrain extends SubsystemBase {
     return runOnce(
         () -> {
           /* one-time action goes here */
-          System.out.println("example method called");
         });
   }
   public Command StopMotors(){
@@ -146,6 +145,7 @@ public class Drivetrain extends SubsystemBase {
     () -> enableRobot()
   );
  }
+ //
   /**
    * An example method querying a boolean state of the subsystem (for example, a digital sensor).
    *

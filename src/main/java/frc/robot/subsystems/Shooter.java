@@ -119,7 +119,7 @@ public class Shooter extends SubsystemBase {
  /*  public Command enable_shooter(){
     return runOnce(() -> )
   } */
-
+ 
 
   /**
    * An example method querying a boolean state of the subsystem (for example, a digital sensor).
