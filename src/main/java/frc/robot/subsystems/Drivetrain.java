@@ -50,8 +50,12 @@ public class Drivetrain extends SubsystemBase {
     rightMotorThree.follow(rightMotorOne);
     rightMotorFour.follow(rightMotorOne);
 
+    rightMotorOne.setInverted(true);
+    rightMotorTwo.setInverted(true);
+    rightMotorThree.setInverted(true);
+    rightMotorFour.setInverted(true);
+
     diffDrive = new DifferentialDrive(leftMotorOne, rightMotorOne);
-    
   }
 
   public void stopMotors(){
@@ -60,20 +64,19 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public void motorBackward(){
-    diffDrive.tankDrive(-0.8, -0.8);
+    diffDrive.tankDrive(-0.5, -0.5);
   }
 
   public void motorForward(){
-    diffDrive.tankDrive(0.8, 0.8);
+    diffDrive.tankDrive(0.5, 0.5);
   }
 
   public void rotateLeft(){
-    diffDrive.tankDrive(-0.9, 0.9);
+    diffDrive.tankDrive(-0.8, 0.8);
   }
 
   public void rotateRight(){
-    diffDrive.tankDrive(0.9, -0.9);
-   
+    diffDrive.tankDrive(0.8, -0.8);   
   }
   public void disableRobot(){
     CommandScheduler.getInstance().disable();

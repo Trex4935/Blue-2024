@@ -83,36 +83,56 @@ public class RobotContainer {
     //m_driverController.b().whileFalse(getAutonomousCommand());
      {
   
-    m_driverController.y().whileTrue(m_Shooter.Run_Cannon_Motor_up());
-    m_driverController.a().whileTrue(m_Shooter.Run_Cannon_Motor_down());
-    //m_driverController.b().whileTrue(m_Shooter.shooterEnable());
+    m_driverController.povUp().whileTrue(m_Shooter.Run_Cannon_Motor_up());
+    m_driverController.povDown().whileTrue(m_Shooter.Run_Cannon_Motor_down());
+
+    // Moves robot forawrd and backwards with the up and down key repsectfully 
+    m_driverController.leftBumper().whileTrue(m_Drivetrain.moveMotorsForward()); 
+    m_driverController.rightBumper().whileTrue(m_Drivetrain.moveMotorsBackward());
+    
+    // Emergency Stop shenanigans
+    //m_dancePad.button(5).onTrue(m_Drivetrain.DisableRobot());
+    //m_dancePad.button(10).onTrue(m_Drivetrain.EnableRobot());
+
+    // Shoots ball using triangle
+    m_driverController.a().onTrue(m_Shooter.shoot_ball());
+
+    // Turns the robot left or right based on the left or right buttons
+    m_driverController.povLeft().whileTrue(m_Drivetrain.rotateMotorsLeft()); 
+    m_driverController.povRight().whileTrue(m_Drivetrain.rotateMotorsRight());
+
+
+
     // m_driverController.rightBumper().onTrue(m_Shooter.shoot_ball());
     // frm_driverController.rightBumper().and(m_dancePad.button(7)).whileTrue(m_Shooter.shoot_ball());
    // m_driverController.x().onTrue();
    //  m_driverController.x().OnFalse(CommandScheduler.getInstance().enable());
     
     // m_driverController.x().whileTrue(m_Drivetrain.triggerEnable());
-    // m_driver
+    
     //Moves the cannon up and down using X and O respectfully
+
     m_dancePad.button(7).whileTrue(m_Shooter.Run_Cannon_Motor_up());
     m_dancePad.button(8).whileTrue(m_Shooter.Run_Cannon_Motor_down());
 
     // Moves robot forawrd and backwards with the up and down key repsectfully 
-    m_dancePad.button(4).whileTrue(m_Drivetrain.moveMotorsForward()); 
-    m_dancePad.button(1).whileTrue(m_Drivetrain.moveMotorsBackward());
+
+    m_dancePad.button(3).whileTrue(m_Drivetrain.moveMotorsForward()); 
+    m_dancePad.button(2).whileTrue(m_Drivetrain.moveMotorsBackward());
     
     // Emergency Stop shenanigans
     m_dancePad.button(5).onTrue(m_Drivetrain.DisableRobot());
     m_dancePad.button(10).onTrue(m_Drivetrain.EnableRobot());
 
     // Shoots ball using triangle
-    m_dancePad.button(6).onTrue(m_Shooter.shoot_ball());
+    m_dancePad.button(9).onTrue(m_Shooter.shoot_ball());
 
     // Turns the robot left or right based on the left or right buttons
-    m_dancePad.button(3).whileTrue(m_Drivetrain.rotateMotorsLeft()); 
-    m_dancePad.button(2).whileTrue(m_Drivetrain.rotateMotorsRight()); 
+    
+    m_dancePad.button(1).whileTrue(m_Drivetrain.rotateMotorsLeft()); 
+    m_dancePad.button(4).whileTrue(m_Drivetrain.rotateMotorsRight()); 
 
- //   m_dancePad.button(4).whileFalse(m_Drivetrain.rotateMotorsRight());
+    //m_dancePad.button(4).whileFalse(m_Drivetrain.rotateMotorsRight());
       }
     }
     
