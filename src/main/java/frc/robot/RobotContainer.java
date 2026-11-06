@@ -121,7 +121,9 @@ public class RobotContainer {
     m_dancePad.button(2).whileTrue(m_Drivetrain.moveMotorsBackward());
     
     // Emergency Stop shenanigans
-    m_dancePad.button(5).onTrue(m_Drivetrain.DisableRobot());
+    m_dancePad.button(5).onTrue(Commands.sequence(
+        m_Shooter.stopFiringSolenoid(),
+        m_Drivetrain.DisableRobot()));
     m_dancePad.button(10).onTrue(m_Drivetrain.EnableRobot());
 
     // Shoots ball using triangle

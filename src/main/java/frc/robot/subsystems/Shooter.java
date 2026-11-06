@@ -10,9 +10,12 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.Constants;
 import frc.robot.extensions.Talon;
+import java.util.function.Consumer;
 
 public class Shooter extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
@@ -30,19 +33,9 @@ public class Shooter extends SubsystemBase {
 
   }
 
-    // shoot with delay
+    // Schedule the firing sequence without blocking the command scheduler.
     public void pewPew() {
-      // System.out.println("-- Command Out --");
-      // Open Air valve to shoot ball
-      shooterSolenoid.set(true);
-      Timer.delay(0.15);
-      // Close valve 
-      shooterSolenoid.set(false);
-      // Open reload slot
-      shooterMag.set(false);
-      Timer.delay(0.4);
-      // Close reload slot
-      shooterMag.set(true);
+      CommandScheduler.getInstance().schedule(shoot_ball());
     }
 
   public void Mag_and_Soleniod_Stop(){
@@ -69,9 +62,13 @@ public class Shooter extends SubsystemBase {
     shooterAim.stopMotor();
   }
   public void shooterEnable(){
-    pewPew();
-    ShooterMag_Toggle();
-    ShooterSolenoid_Toggle();
+    Command enableSequence = Commands.sequence(
+        createFiringSequence(),
+        runOnce(() -> {
+          ShooterMag_Toggle();
+          ShooterSolenoid_Toggle();
+        }));
+    CommandScheduler.getInstance().schedule(enableSequence);
   }
   /**
    * Example command factory method.
@@ -114,7 +111,38 @@ public class Shooter extends SubsystemBase {
         );
   }
   public Command shoot_ball() {
-    return runOnce(() -> pewPew());
+    return createFiringSequence();
+  }
+
+  /** Creates the firing sequence with the shooter as an exclusive requirement. */
+  private Command createFiringSequence() {
+    return createFiringSequence(this, shooterSolenoid::set, shooterMag::set);
+  }
+
+  /** Package-visible seam for exercising command timing without constructing hardware. */
+  static Command createFiringSequence(
+      Subsystem requirement,
+      Consumer<Boolean> setFiringSolenoid,
+      Consumer<Boolean> setMagazineSolenoid) {
+    return Commands.sequence(
+            Commands.runOnce(() -> setFiringSolenoid.accept(true), requirement),
+            Commands.waitSeconds(0.15),
+            Commands.runOnce(() -> {
+              setFiringSolenoid.accept(false);
+              setMagazineSolenoid.accept(false);
+            }, requirement),
+            Commands.waitSeconds(0.4),
+            Commands.runOnce(() -> setMagazineSolenoid.accept(true), requirement))
+        .finallyDo(interrupted -> {
+          if (interrupted) {
+            setFiringSolenoid.accept(false);
+          }
+        });
+  }
+
+  /** Stops firing output before the legacy scheduler-disable action is run. */
+  public Command stopFiringSolenoid() {
+    return runOnce(() -> shooterSolenoid.set(false));
   }
  /*  public Command enable_shooter(){
     return runOnce(() -> )
